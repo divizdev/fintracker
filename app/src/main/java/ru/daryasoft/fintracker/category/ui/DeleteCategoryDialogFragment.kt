@@ -29,8 +29,8 @@ class DeleteCategoryDialogFragment : DialogFragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        if (activity is INoticeDialogListener) {
-            listener = activity as INoticeDialogListener
+        if (targetFragment is INoticeDialogListener) {
+            listener = targetFragment as INoticeDialogListener
 
         } else {
             throw RuntimeException(targetFragment!!.toString() + " must implement INoticeDialogListener")

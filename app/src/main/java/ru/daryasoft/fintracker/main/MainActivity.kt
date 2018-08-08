@@ -42,6 +42,7 @@ class MainActivity : DaggerAppCompatActivity(), AddTransactionListener {
             android.R.id.home -> {
                 if (drawer_layout.isDrawerOpen(nav_view)) {
                     drawer_layout.closeDrawer(Gravity.START)
+
                 }
                 else {
                     drawer_layout.openDrawer(Gravity.START)

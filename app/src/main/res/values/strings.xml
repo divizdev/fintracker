@@ -58,5 +58,10 @@
     <string name="title_periodicity">Периодичность</string>
     <string name="title_name_category">Название категории</string>
     <string name="title_request_delete_item_category">Вы действительно хотите удалить категорию</string>
+    <string name="title_save_category_button">Сохранить</string>
+    <string name="title_type_operation">Тип операции</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>
