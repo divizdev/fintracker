@@ -28,21 +28,6 @@ class MainFragment : Fragment() {
         view_pager.currentItem = tabPosition
 
         sliding_tabs.setupWithViewPager(view_pager)
-//        sliding_tabs.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
-//            override fun onTabSelected(tab: TabLayout.Tab?) {
-////                activity?.title = when (tab?.position) {
-////                    0 -> getString(R.string.title_fragment_balance)
-////                    1 -> getString(R.string.title_fragment_operation)
-////                    else -> throw IllegalArgumentException()
-//                }
-//            }
-//
-//            override fun onTabReselected(tab: TabLayout.Tab?) {
-//            }
-//
-//            override fun onTabUnselected(tab: TabLayout.Tab?) {
-//            }
-//        })
     }
 
     companion object {

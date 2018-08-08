@@ -35,3 +35,8 @@ fun AppCompatActivity.hideKeyboard(view: View) {
     ContextCompat.getSystemService(this, InputMethodManager::class.java)
             ?.hideSoftInputFromWindow(view.windowToken, 0)
 }
+
+fun Fragment.hideKeyboard(view: View){
+    ContextCompat.getSystemService(requireContext(), InputMethodManager::class.java)
+            ?.hideSoftInputFromWindow(view.windowToken, 0)
+}

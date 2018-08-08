@@ -12,6 +12,7 @@ import ru.daryasoft.fintracker.R
 import ru.daryasoft.fintracker.category.viewModel.AddCategoryViewModel
 import ru.daryasoft.fintracker.common.CustomArrayAdapter
 import ru.daryasoft.fintracker.common.getViewModel
+import ru.daryasoft.fintracker.common.hideKeyboard
 import ru.daryasoft.fintracker.entity.Category
 import ru.daryasoft.fintracker.entity.TransactionType
 import javax.inject.Inject
@@ -30,7 +31,8 @@ class AddCategoryFragment : DaggerFragment() {
         save_category_button.setOnClickListener {
             if (!value_edit_text.text.isEmpty()) {
                 viewModel.onAddCategory(Category(value_edit_text.text.toString(), type_operation_spinner.selectedItem as TransactionType))
-                activity?.supportFragmentManager?.beginTransaction()?.remove(this)?.commit()
+                hideKeyboard(value_edit_text)
+                activity?.supportFragmentManager?.popBackStack()
             }
         }
 
