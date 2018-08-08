@@ -17,6 +17,7 @@ import ru.daryasoft.fintracker.calculator.TransactionCalculationService
 import ru.daryasoft.fintracker.calculator.TransactionCalculationServiceImpl
 import ru.daryasoft.fintracker.category.data.CategoryRepository
 import ru.daryasoft.fintracker.category.data.CategoryRepositoryDB
+import ru.daryasoft.fintracker.category.ui.CategoriesActivity
 import ru.daryasoft.fintracker.category.viewModel.CategoriesViewModel
 import ru.daryasoft.fintracker.common.ViewModelFactory
 import ru.daryasoft.fintracker.main.MainActivity
@@ -52,6 +53,10 @@ interface MainBindModule {
 
     @ContributesAndroidInjector
     fun contributeAddAccountDialogFragmentInjector(): AddAccountDialogFragment
+
+    @ContributesAndroidInjector
+    fun contributeCategoriesActivityInjector(): CategoriesActivity
+
 
     @Binds
     @Singleton

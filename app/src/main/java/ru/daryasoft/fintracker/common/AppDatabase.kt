@@ -27,10 +27,10 @@ abstract class AppDatabase : RoomDatabase() {
              val database = Room.databaseBuilder(context.applicationContext, AppDatabase::class.java, DB_NAME).build()
              //ВНИМАНИЕ!!! Никогда так не делай, для инициализации бд нужно реализовать callback в билдере выше
              launch {
-                 database.categoryDao().insert(Category("Зарплата", TransactionType.INCOME, "ic_salary", 1))
-                 database.categoryDao().insert(Category("Сбережения", TransactionType.INCOME, "ic_saving", 2))
-                 database.categoryDao().insert(Category("Транспорт", TransactionType.OUTCOME, "ic_transport", 3))
-                 database.categoryDao().insert(Category("Еда", TransactionType.OUTCOME, "ic_food", 4))
+                 database.categoryDao().insert(Category("Зарплата", TransactionType.INCOME, 1))
+                 database.categoryDao().insert(Category("Сбережения", TransactionType.INCOME, 2))
+                 database.categoryDao().insert(Category("Транспорт", TransactionType.OUTCOME, 3))
+                 database.categoryDao().insert(Category("Еда", TransactionType.OUTCOME, 4))
                  database.accountDao().insert(Account("Наличные руб", Money(BigDecimal.valueOf(600.00), Currency.RUB), 1))
                  database.accountDao().insert(Account("Карта руб", Money(BigDecimal.valueOf(1600.00), Currency.RUB), 2))
                  database.accountDao().insert(Account("Карта доллары", Money(BigDecimal.valueOf(20600.00), Currency.USD), 3))

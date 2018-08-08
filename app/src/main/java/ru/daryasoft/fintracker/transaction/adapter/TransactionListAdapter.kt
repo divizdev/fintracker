@@ -47,9 +47,6 @@ class TransactionListAdapter(private var transactionDBS: List<TransactionUI>,
         }
 
         fun setData(transactionDB: TransactionUI) {
-//            val uri = Uri.parse("android.resource://ru.daryasoft.fintracker/drawable/" + transactionDB.category.iconUri)
-
-//            itemView.category_icon.setImageURI(uri)
             itemView.transaction_type.setImageDrawable(itemView.context.resources.getDrawable(getIconForTransactionType(transactionDB.category.transactionType)))
             itemView.transaction_sum.text = localeUtils.formatBigDecimal( transactionDB.sum.value)
             itemView.transaction_currency.text =  localeUtils.formatCurrency(transactionDB.sum.currency)

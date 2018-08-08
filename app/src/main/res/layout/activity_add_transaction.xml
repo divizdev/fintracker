@@ -140,9 +140,9 @@
         android:background="@color/colorAccent"
         android:enabled="false"
         android:text="@string/add_transaction_button_ok_text"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/transaction_amount"/>
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/transaction_amount" />
 
     <Spinner
         android:id="@+id/spinner_periodicity"

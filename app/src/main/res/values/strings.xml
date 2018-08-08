@@ -56,5 +56,7 @@
     <string name="add_transaction_amount_title">Сумма операции</string>
     <string name="title_request_delete_item_transaction">\"Вы действительно хотите удалить операцию?\"</string>
     <string name="title_periodicity">Периодичность</string>
+    <string name="title_name_category">Название категории</string>
+    <string name="title_request_delete_item_category">Вы действительно хотите удалить категорию</string>
 
 </resources>

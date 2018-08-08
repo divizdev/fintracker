@@ -12,6 +12,7 @@ import android.view.ViewGroup
 import dagger.android.support.DaggerFragment
 import kotlinx.android.synthetic.main.fragment_transactions.*
 import ru.daryasoft.fintracker.R
+import ru.daryasoft.fintracker.common.INoticeDialogListener
 import ru.daryasoft.fintracker.common.getViewModel
 import ru.daryasoft.fintracker.entity.TransactionUI
 import ru.daryasoft.fintracker.transaction.adapter.TransactionItemTouchHelper
@@ -23,7 +24,7 @@ import javax.inject.Inject
 /**
  * Фрагмент для списка транзакций.
  */
-class TransactionsFragment : DaggerFragment(), DeleteTransactionDialogFragment.INoticeDialogListener {
+class TransactionsFragment : DaggerFragment(), INoticeDialogListener {
     override fun onDialogOk() {
         viewModel.onConfirmDeleteTransaction()
     }

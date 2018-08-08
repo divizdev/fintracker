@@ -8,6 +8,7 @@ import dagger.Provides
 import okhttp3.ResponseBody
 import retrofit2.Converter
 import retrofit2.Retrofit
+import ru.daryasoft.fintracker.category.data.CategoryDao
 import ru.daryasoft.fintracker.common.AppDatabase
 import ru.daryasoft.fintracker.rate.RateNetworkDataSource
 import ru.daryasoft.fintracker.rate.ResponseToRateConverter
@@ -43,4 +44,12 @@ class MainProvideModule {
     fun provideAppDatabase(context: Application): AppDatabase {
         return AppDatabase.createPersistentDatabase(context)
     }
+
+
+    @Provides
+    @Singleton
+    fun provideCategoryDao(appDatabase: AppDatabase): CategoryDao {
+        return  appDatabase.categoryDao()
+    }
+
 }

@@ -4,7 +4,6 @@ import android.arch.persistence.room.Embedded
 import android.arch.persistence.room.Entity
 import android.arch.persistence.room.Ignore
 import android.arch.persistence.room.PrimaryKey
-import java.math.BigDecimal
 import java.util.*
 
 /**
@@ -32,5 +31,5 @@ data class TransactionDB(
         var idAccount: Long? = account.id,
         var idCategory: Long? = category.idKeyCategory
 ) {
-    constructor() : this(Account("", Money(BigDecimal.ZERO, Currency.USD)), Money(BigDecimal.ZERO, Currency.USD), Date(), Category("", TransactionType.INCOME, ""))
+    constructor() : this(Account("", Money()), Money(), Date(), Category())
 }
