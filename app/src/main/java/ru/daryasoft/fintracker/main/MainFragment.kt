@@ -20,6 +20,7 @@ class MainFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initTabLayout()
+        activity?.title = getString(R.string.app_name)
     }
 
     private fun initTabLayout() {

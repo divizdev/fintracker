@@ -6,6 +6,7 @@ import ru.daryasoft.fintracker.R
 import ru.daryasoft.fintracker.account.ui.AccountsActivity
 import ru.daryasoft.fintracker.category.ui.AddCategoryFragment
 import ru.daryasoft.fintracker.category.ui.CategoriesFragment
+import ru.daryasoft.fintracker.main.MainFragment
 import ru.daryasoft.fintracker.transaction.ui.AddTransactionActivity
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -37,5 +38,9 @@ class Router @Inject constructor() {
                 .addToBackStack(null)
                 .commit()
 
+    }
+
+    fun navToHomeFragment(activity: AppCompatActivity){
+        activity.supportFragmentManager.beginTransaction().replace(R.id.main_fragment_container, MainFragment.newInstance()).commit()
     }
 }
