@@ -4,6 +4,7 @@ import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProvider
 import android.content.Context
 import android.os.Bundle
+import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.helper.ItemTouchHelper
 import android.view.LayoutInflater
@@ -13,6 +14,7 @@ import dagger.android.support.DaggerFragment
 import kotlinx.android.synthetic.main.fragment_transactions.*
 import ru.daryasoft.fintracker.R
 import ru.daryasoft.fintracker.common.INoticeDialogListener
+import ru.daryasoft.fintracker.common.Router
 import ru.daryasoft.fintracker.common.getViewModel
 import ru.daryasoft.fintracker.entity.TransactionUI
 import ru.daryasoft.fintracker.transaction.adapter.TransactionItemTouchHelper
@@ -25,6 +27,10 @@ import javax.inject.Inject
  * Фрагмент для списка транзакций.
  */
 class TransactionsFragment : DaggerFragment(), INoticeDialogListener {
+    @Inject
+    lateinit var router: Router
+
+
     override fun onDialogOk() {
         viewModel.onConfirmDeleteTransaction()
     }
@@ -45,8 +51,13 @@ class TransactionsFragment : DaggerFragment(), INoticeDialogListener {
     }
 
 
+    private val transactionListAdapter = TransactionListAdapter(listOf(), { position -> onDeleteTransaction(position) }, { id -> onClickTransaction(id)
+    })
 
-    private val transactionListAdapter = TransactionListAdapter(listOf()) { position -> onDeleteTransaction(position) }
+    private fun onClickTransaction(id: Long) {
+        router.navToEditTransaction(activity as AppCompatActivity, id)
+    }
+
     private var addTransactionListener: AddTransactionListener? = null
 
     private val itemTouchHelper = ItemTouchHelper(TransactionItemTouchHelper(0, ItemTouchHelper.LEFT) { position -> onDeleteTransaction(position) })

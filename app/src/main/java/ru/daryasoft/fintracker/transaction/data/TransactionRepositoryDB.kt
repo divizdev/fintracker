@@ -2,7 +2,6 @@ package ru.daryasoft.fintracker.transaction.data
 
 import android.arch.lifecycle.LiveData
 import kotlinx.coroutines.experimental.launch
-import ru.daryasoft.fintracker.common.AppDatabase
 import ru.daryasoft.fintracker.entity.Account
 import ru.daryasoft.fintracker.entity.Category
 import ru.daryasoft.fintracker.entity.TransactionDB
@@ -10,7 +9,11 @@ import ru.daryasoft.fintracker.entity.TransactionUI
 import java.math.BigDecimal
 import javax.inject.Inject
 
-class TransactionRepositoryDB @Inject constructor(db: AppDatabase) : TransactionRepository {
+class TransactionRepositoryDB @Inject constructor(private val dao: TransactionDao) : TransactionRepository {
+    override fun getTransactionById(id: Long): LiveData<TransactionDB> {
+        return dao.getById(id)
+    }
+
     override fun getAccount(id: Long): Account {
         return dao.getAccountById(id)
     }
@@ -25,7 +28,7 @@ class TransactionRepositoryDB @Inject constructor(db: AppDatabase) : Transaction
         return dao.getPeriodisity()
     }
 
-    private val dao = db.transactionDao()
+
     private var transactions = dao.getAll()
 
     override fun getAll(): LiveData<List<TransactionUI>> {

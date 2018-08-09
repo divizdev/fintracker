@@ -27,7 +27,7 @@ import ru.daryasoft.fintracker.rate.RateRepository
 import ru.daryasoft.fintracker.rate.RateRepositoryImpl
 import ru.daryasoft.fintracker.transaction.data.TransactionRepository
 import ru.daryasoft.fintracker.transaction.data.TransactionRepositoryDB
-import ru.daryasoft.fintracker.transaction.ui.AddTransactionActivity
+import ru.daryasoft.fintracker.transaction.ui.AddTransactionFragment
 import ru.daryasoft.fintracker.transaction.ui.TransactionsFragment
 import ru.daryasoft.fintracker.transaction.viewModel.TransactionsViewModel
 import javax.inject.Singleton
@@ -51,7 +51,7 @@ interface MainBindModule {
     fun contributeAccountsFragmentInjector(): AccountsActivity
 
     @ContributesAndroidInjector
-    fun contributeAddTransactionFragmentInjector(): AddTransactionActivity
+    fun contributeAddTransactionFragmentInjector(): AddTransactionFragment
 
     @ContributesAndroidInjector
     fun contributeAddAccountDialogFragmentInjector(): AddAccountDialogFragment

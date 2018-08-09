@@ -14,7 +14,7 @@ abstract class TransactionDao {
     abstract fun getAll(): LiveData<List<TransactionUI>>
 
     @Query("SELECT * FROM TransactionDB Where id = :id")
-    abstract fun getById(id: Long): TransactionDB
+    abstract fun getById(id: Long): LiveData<TransactionDB>
 
     @Query("SELECT t.value, t.currency, t.date, c.idKeyCategory, c.name, c.transactionType, a.name as nameAccount, a.value as sumAccount,  t.id, t.idAccount , t.idCategory FROM TransactionDB as t JOIN account as a ON idAccount = a.id JOIN category as c on idCategory = c.idKeyCategory where idCategory = :categoryId")
     abstract fun getQuery(categoryId: Long): LiveData<List<TransactionUI>>
@@ -43,7 +43,7 @@ abstract class TransactionDao {
     @Query("UPDATE transactiondb set isScheduled = 1 where id = :id")
     abstract fun updateSchedule(id: Long)
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     abstract fun insertTransaction(transactionDB: TransactionDB)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)

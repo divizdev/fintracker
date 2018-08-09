@@ -60,4 +60,9 @@ class TransactionsViewModel @Inject constructor(private val transactionRepositor
 
         transactionRepository.add(transactionDB, account)
     }
+
+    fun getTransaction(idTransaction: Long):LiveData<TransactionDB>{
+
+       return transactionRepository.getTransactionById(idTransaction)
+    }
 }

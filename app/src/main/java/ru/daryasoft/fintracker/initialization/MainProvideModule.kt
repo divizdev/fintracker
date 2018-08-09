@@ -12,6 +12,7 @@ import ru.daryasoft.fintracker.category.data.CategoryDao
 import ru.daryasoft.fintracker.common.AppDatabase
 import ru.daryasoft.fintracker.rate.RateNetworkDataSource
 import ru.daryasoft.fintracker.rate.ResponseToRateConverter
+import ru.daryasoft.fintracker.transaction.data.TransactionDao
 import java.lang.reflect.Type
 import javax.inject.Singleton
 
@@ -50,6 +51,12 @@ class MainProvideModule {
     @Singleton
     fun provideCategoryDao(appDatabase: AppDatabase): CategoryDao {
         return  appDatabase.categoryDao()
+    }
+
+    @Provides
+    @Singleton
+    fun provideTransactionDao(appDatabase: AppDatabase): TransactionDao {
+        return  appDatabase.transactionDao()
     }
 
 }

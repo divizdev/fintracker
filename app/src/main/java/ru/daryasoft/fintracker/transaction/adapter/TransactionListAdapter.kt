@@ -16,7 +16,8 @@ import ru.daryasoft.fintracker.entity.TransactionUI
  * Адаптер для отображения списка транзакций.
  */
 class TransactionListAdapter(private var transactionDBS: List<TransactionUI>,
-                             private val onDeleteAction: (position: Int) -> Unit) : RecyclerView.Adapter<TransactionListAdapter.ViewHolder>() {
+                             private val onDeleteAction: (position: Int) -> Unit,
+                             private val onClickTransaction: (idTransaction: Long) -> Unit) : RecyclerView.Adapter<TransactionListAdapter.ViewHolder>() {
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val transaction = transactionDBS[position]
@@ -38,20 +39,26 @@ class TransactionListAdapter(private var transactionDBS: List<TransactionUI>,
     }
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val localeUtils = LocaleUtils(itemView.context)
+        private val localeUtils = LocaleUtils(itemView.context)
+        private lateinit var transaction: TransactionUI
+
         init {
             itemView.setOnLongClickListener {
                 onDeleteAction.invoke(adapterPosition)
                 true
             }
+            itemView.setOnClickListener {
+                onClickTransaction.invoke(transaction.id ?: -1)
+            }
         }
 
-        fun setData(transactionDB: TransactionUI) {
-            itemView.transaction_type.setImageDrawable(itemView.context.resources.getDrawable(getIconForTransactionType(transactionDB.category.transactionType)))
-            itemView.transaction_sum.text = localeUtils.formatBigDecimal( transactionDB.sum.value)
-            itemView.transaction_currency.text =  localeUtils.formatCurrency(transactionDB.sum.currency)
-            itemView.transaction_date.text = getDateFormat(itemView.context).format(transactionDB.date)
-            itemView.transaction_date.text = transactionDB.nameAccount
+        fun setData(transaction: TransactionUI) {
+            this.transaction = transaction
+            itemView.transaction_type.setImageDrawable(itemView.context.resources.getDrawable(getIconForTransactionType(transaction.category.transactionType)))
+            itemView.transaction_sum.text = localeUtils.formatBigDecimal( transaction.sum.value)
+            itemView.transaction_currency.text =  localeUtils.formatCurrency(transaction.sum.currency)
+            itemView.transaction_date.text = getDateFormat(itemView.context).format(transaction.date)
+            itemView.transaction_date.text = transaction.nameAccount
         }
 
         private fun getIconForTransactionType(transactionType: TransactionType): Int {

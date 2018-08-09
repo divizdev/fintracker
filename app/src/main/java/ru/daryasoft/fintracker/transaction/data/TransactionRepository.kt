@@ -16,6 +16,8 @@ interface TransactionRepository {
      */
     fun getAll(): LiveData<List<TransactionUI>>
 
+    fun getTransactionById(id: Long):LiveData<TransactionDB>
+
     /**
      * Ищет транзакции по категории и счету.
      *
