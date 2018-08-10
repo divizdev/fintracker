@@ -61,8 +61,20 @@ class TransactionsViewModel @Inject constructor(private val transactionRepositor
         transactionRepository.add(transactionDB, account)
     }
 
-    fun getTransaction(idTransaction: Long):LiveData<TransactionDB>{
+    fun onUpdateTransaction(account: Account, transactionDBOld: TransactionDB, transactionDBNew: TransactionDB, category: Category) {
 
-       return transactionRepository.getTransactionById(idTransaction)
+        val sumOld = if (transactionDBOld.category.transactionType == TransactionType.OUTCOME) -transactionDBOld.sum.value else transactionDBOld.sum.value
+        val sumNew = if (transactionDBNew.category.transactionType == TransactionType.OUTCOME) -transactionDBNew.sum.value else transactionDBNew.sum.value
+        val delta = sumNew.minus(sumOld)
+        account.money.value = account.money.value.add(delta)
+        transactionDBNew.idCategory = category.idKeyCategory
+        transactionDBNew.idAccount = account.id
+        transactionRepository.add(transactionDBNew, account)
+
+    }
+
+    fun getTransaction(idTransaction: Long): LiveData<TransactionDB> {
+
+        return transactionRepository.getTransactionById(idTransaction)
     }
 }

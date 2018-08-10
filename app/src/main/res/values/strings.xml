@@ -61,9 +61,13 @@
     <string name="title_save_category_button">Сохранить</string>
     <string name="title_type_operation">Тип операции</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
+
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="about_description">Это простое приложение для отслеживания ваших финансов</string>
     <string name="title_dialog_about">About</string>
+    <string name="title_brief_overview">Краткий обзор</string>
+    <string name="title_revenue">Доход</string>
+    <string name="title_expense">Расход</string>
+    <string name="title_about">О приложении</string>
 
 </resources>

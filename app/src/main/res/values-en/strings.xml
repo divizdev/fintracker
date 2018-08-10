@@ -47,5 +47,21 @@
     <string name="add_transaction_category_title">Category</string>
     <string name="add_transaction_account_title">Account</string>
     <string name="add_transaction_amount_title">Operation amount</string>
+    <string name="income">Income</string>
+    <string name="outcome">Outcome</string>
+    <string name="OnceMonth">Once a month</string>
+    <string name="Without">Not to repeat</string>
+    <string name="title_request_delete_item_transaction">Do you really want to delete the operation?</string>
+    <string name="title_periodicity">13 / 10000 АНГЛИЙСКИЙ Перевести вGoogleBing Periodicity</string>
+    <string name="title_name_category">Category name</string>
+    <string name="title_request_delete_item_category">Do you really want to delete a category</string>
+    <string name="title_save_category_button">Save</string>
+    <string name="title_type_operation">Type transaction</string>
+    <string name="about_description">This is a simple app to keep track of your finances</string>
+    <string name="title_dialog_about">About</string>
+    <string name="title_revenue">Income</string>
+    <string name="title_expense">Outcome</string>
+    <string name="title_about">About</string>
+    <string name="title_brief_overview">Brief overview</string>
 
 </resources>

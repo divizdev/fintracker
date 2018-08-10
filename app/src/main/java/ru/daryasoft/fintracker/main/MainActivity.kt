@@ -10,8 +10,6 @@ import kotlinx.android.synthetic.main.activity_main.*
 import ru.daryasoft.fintracker.R
 import ru.daryasoft.fintracker.common.Router
 import ru.daryasoft.fintracker.common.replaceFragment
-import ru.daryasoft.fintracker.common.replaceFragmentAndBack
-import ru.daryasoft.fintracker.settings.SettingsFragment
 import ru.daryasoft.fintracker.transaction.ui.AddTransactionListener
 import javax.inject.Inject
 
@@ -74,7 +72,8 @@ class MainActivity : DaggerAppCompatActivity(), AddTransactionListener {
                 R.id.main_page -> router.navToHomeFragment(this)
                 R.id.accounts -> router.navToAccountsActivity(this)
                 R.id.categories -> router.navToCategory(this)
-                R.id.settings -> replaceFragmentAndBack(SettingsFragment.newInstance(), R.id.main_fragment_container)
+//                R.id.settings -> replaceFragmentAndBack(SettingsFragment.newInstance(), R.id.main_fragment_container)
+                R.id.about -> router.navToAbout(this)
                 else -> throw IllegalArgumentException()
             }
 

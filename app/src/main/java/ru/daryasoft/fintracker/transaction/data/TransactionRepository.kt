@@ -1,10 +1,7 @@
 package ru.daryasoft.fintracker.transaction.data
 
 import android.arch.lifecycle.LiveData
-import ru.daryasoft.fintracker.entity.Account
-import ru.daryasoft.fintracker.entity.Category
-import ru.daryasoft.fintracker.entity.TransactionDB
-import ru.daryasoft.fintracker.entity.TransactionUI
+import ru.daryasoft.fintracker.entity.*
 import java.math.BigDecimal
 
 /**
@@ -25,6 +22,8 @@ interface TransactionRepository {
      * @account счет, по которому нужно выполнить поиск.
      */
     fun query(category: Category, account: Account?): LiveData<List<TransactionUI>>
+
+    fun sum(transactionType: TransactionType, account: Account):LiveData<BigDecimal>
 
     /**
      * Добавляет транзакцию.

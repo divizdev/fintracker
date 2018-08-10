@@ -7,6 +7,7 @@ import ru.daryasoft.fintracker.account.ui.AccountsActivity
 import ru.daryasoft.fintracker.category.ui.AddCategoryFragment
 import ru.daryasoft.fintracker.category.ui.CategoriesFragment
 import ru.daryasoft.fintracker.main.MainFragment
+import ru.daryasoft.fintracker.settings.AboutDialog
 import ru.daryasoft.fintracker.transaction.ui.AddTransactionFragment
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -50,5 +51,13 @@ class Router @Inject constructor() {
 
     fun navToHomeFragment(activity: AppCompatActivity){
         activity.supportFragmentManager.beginTransaction().replace(R.id.main_fragment_container, MainFragment.newInstance()).commit()
+    }
+
+    private val TAG_ABOUT_DIALOG_FRAGMENT = "tagAbout"
+    fun navToAbout(activity: AppCompatActivity) {
+        val dialogFragment = AboutDialog()
+        dialogFragment.show(
+                activity.supportFragmentManager,
+                TAG_ABOUT_DIALOG_FRAGMENT)
     }
 }

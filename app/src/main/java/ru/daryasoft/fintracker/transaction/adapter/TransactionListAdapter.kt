@@ -58,7 +58,8 @@ class TransactionListAdapter(private var transactionDBS: List<TransactionUI>,
             itemView.transaction_sum.text = localeUtils.formatBigDecimal( transaction.sum.value)
             itemView.transaction_currency.text =  localeUtils.formatCurrency(transaction.sum.currency)
             itemView.transaction_date.text = getDateFormat(itemView.context).format(transaction.date)
-            itemView.transaction_date.text = transaction.nameAccount
+            itemView.account_name.text = transaction.nameAccount
+            itemView.transaction_category.text = transaction.category.name
         }
 
         private fun getIconForTransactionType(transactionType: TransactionType): Int {

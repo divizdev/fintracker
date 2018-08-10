@@ -25,8 +25,7 @@ class AboutDialog : DialogFragment() {
                 .setDescription(getContext()!!.getResources().getString(R.string.about_description))
                 .addItem(Element().setTitle("Version $version"))
                 .addWebsite("http://divizdev.ru")
-                .addPlayStore("ru.divizdev.coinrate")
-                .addGitHub("divizdev/CoinRate")
+                .addGitHub("divizdev/fintracker")
                 .create()
 
 

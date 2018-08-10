@@ -43,7 +43,7 @@ class MainProvideModule {
     @Provides
     @Singleton
     fun provideAppDatabase(context: Application): AppDatabase {
-        return AppDatabase.createPersistentDatabase(context)
+        return AppDatabase.getInstance(context)
     }
 
 

@@ -18,10 +18,12 @@ class RateRepositoryImpl @Inject constructor() : RateRepository {
     }
 
     override fun getRateToDefault(currency: Currency): Double {
-        return rates.value?.get(currency)?.ratio ?: 1.00
+        return rates.value?.get(currency)?.ratio ?: if (currency == Currency.RUB) 1.0 else 66.29
     }
 
     override fun getRateFromDefault(currency: Currency): Double {
-        return 1 / (rates.value?.get(currency)?.ratio ?: 1.00)
+        return 1 / (rates.value?.get(currency)?.ratio
+                ?: if (currency == Currency.RUB) 1.0 else 66.29)
     }
+
 }

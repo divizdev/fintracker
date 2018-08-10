@@ -32,6 +32,8 @@ class AddTransactionFragment : DaggerFragment() {
 
     private var idTransaction: Long = -1
 
+    private lateinit var transactionDB: TransactionDB
+
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
 
@@ -58,18 +60,30 @@ class AddTransactionFragment : DaggerFragment() {
     private val transactionObserver: android.arch.lifecycle.Observer<TransactionDB> by lazy {
         android.arch.lifecycle.Observer<TransactionDB> { it ->
             it?.let {
+                transactionDB = it
                 transaction_amount.setText(it.sum.value.toString())
                 transaction_date_selector.text = DateFormat.getDateFormat(activity).format(it.date)
 
                 for ((index, item) in listAccount.withIndex()) {
                     if (item.id == it.idAccount) {
                         transaction_account_spinner.setSelection(index)
+                        transactionDB.account = item
+                        break
                     }
                 }
 
                 for ((index, item) in listCategories.withIndex()) {
                     if (item.idKeyCategory == it.idCategory) {
                         category_spinner.setSelection(index)
+                        transactionDB.category = item
+                        break
+                    }
+                }
+
+                for (i in 0..spinner_periodicity.adapter.count) {
+                    if ((spinner_periodicity.adapter.getItem(i) as Periodicity) == transactionDB.periodicity) {
+                        spinner_periodicity.setSelection(i)
+                        break
                     }
                 }
 
@@ -189,15 +203,18 @@ class AddTransactionFragment : DaggerFragment() {
         add_transaction_ok.setOnClickListener {
             val account = transaction_account_spinner.selectedItem as Account
             val transactionSum = transaction_amount.text.toString().toDouble()
-            val date = Date()
+
+            val date = DateFormat.getDateFormat(activity).parse(transaction_date_selector.text.toString()) ?: Date()
             val category = category_spinner.selectedItem as Category
             val periodicity = spinner_periodicity.selectedItem as Periodicity
-            val transaction = TransactionDB(account, Money(transactionSum.toBigDecimal(), account.money.currency), date, category, periodicity)
+            val transactionNew = TransactionDB(account, Money(transactionSum.toBigDecimal(), account.money.currency), date, category, periodicity)
             if (idTransaction != -1L) {
-                transaction.id = idTransaction
-            }
+                transactionNew.id = idTransaction
+                transactionsViewModel.onUpdateTransaction(account, transactionDB, transactionNew, category)
 
-            transactionsViewModel.onAddTransaction(account, transaction, category)
+            } else {
+                transactionsViewModel.onAddTransaction(account, transactionNew, category)
+            }
             hideKeyboard(transaction_amount)
             activity?.supportFragmentManager?.popBackStack()
         }
