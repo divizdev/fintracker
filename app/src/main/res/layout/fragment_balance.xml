@@ -5,7 +5,8 @@
     android:layout_height="wrap_content"
     android:gravity="center_horizontal"
     android:orientation="vertical"
-    tools:context=".balance.BalanceFragment">
+    tools:context=".balance.BalanceFragment"
+    android:padding="@dimen/padding_medium">
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
@@ -13,19 +14,23 @@
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
         android:orientation="horizontal"
-        tools:context=".balance.BalanceFragment">
+        tools:context=".balance.BalanceFragment"
+        android:padding="@dimen/padding_medium">
 
         <Spinner
             android:id="@+id/account_spinner"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center" />
+            android:gravity="center"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
         <Spinner
             android:id="@+id/currency_spinner"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center" />
+            android:gravity="center"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+
 
     </LinearLayout>
 
@@ -33,14 +38,12 @@
         android:id="@+id/balance_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_margin="@dimen/margin_medium"
+        android:gravity="center"
         android:text="@string/balance_title"
-        android:textSize="@dimen/balanceTextSize"
-        android:textStyle="bold"
-        android:layout_marginEnd="@dimen/balanceMargin"
-        android:gravity="center" />
+        android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
@@ -51,16 +54,18 @@
             android:id="@+id/balance_value"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="@dimen/balanceTextSize"
             android:layout_marginEnd="@dimen/balanceMargin"
-            android:gravity="center" />
+            android:gravity="center"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            tools:text="1 000" />
 
         <TextView
             android:id="@+id/balance_currency"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="@dimen/balanceTextSize"
-            android:gravity="center" />
+            android:gravity="center"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            tools:text="$" />
 
     </LinearLayout>
 

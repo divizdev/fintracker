@@ -17,6 +17,7 @@ import dagger.android.support.DaggerFragment
 import kotlinx.android.synthetic.main.fragment_balance.*
 import ru.daryasoft.fintracker.R
 import ru.daryasoft.fintracker.common.CustomArrayAdapter
+import ru.daryasoft.fintracker.common.LocaleUtils
 import ru.daryasoft.fintracker.common.getViewModel
 import ru.daryasoft.fintracker.entity.Account
 import ru.daryasoft.fintracker.entity.Balance
@@ -33,12 +34,16 @@ class BalanceFragment : DaggerFragment() {
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
 
+
     private val balanceViewModel: BalanceViewModel by lazy { getViewModel<BalanceViewModel>(viewModelFactory) }
 
     private val balanceObserver: Observer<Balance> by lazy {
-        Observer<Balance> {
-            balance_value.text = String.format("%.2f", it?.sum)
-            balance_currency.text = it?.currency.toString()
+        Observer<Balance> { it ->
+            it?.let {
+                val localeUtils = LocaleUtils(context)
+                balance_value.text = localeUtils.formatBigDecimal(it.money.value)
+                balance_currency.text = localeUtils.formatCurrency(it.money.currency)
+            }
         }
     }
 
@@ -128,9 +133,9 @@ class BalanceFragment : DaggerFragment() {
 
     private fun initPieChart(transactionAggregateInfoList: List<TransactionAggregateInfo>) {
         val entries = mutableListOf<PieEntry>()
-        val sum = transactionAggregateInfoList.map { it.amount.absoluteValue }.sum()
+        val sum = transactionAggregateInfoList.map { it.amount.value.toFloat().absoluteValue }.sum()
         for (transactionAggregateInfo in transactionAggregateInfoList) {
-            val categoryWasteAmount = (transactionAggregateInfo.amount.absoluteValue / sum * 100).toFloat()
+            val categoryWasteAmount = (transactionAggregateInfo.amount.value.toFloat().absoluteValue / sum * 100)
             if (categoryWasteAmount > 0) {
                 entries.add(PieEntry(categoryWasteAmount, transactionAggregateInfo.category.name))
             }

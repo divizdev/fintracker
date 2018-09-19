@@ -1,8 +1,7 @@
 package ru.daryasoft.fintracker.rate
 
+import android.util.Log
 import androidx.work.Worker
-import kotlinx.coroutines.experimental.android.UI
-import kotlinx.coroutines.experimental.launch
 import ru.daryasoft.fintracker.initialization.FinTrackerApplication
 import javax.inject.Inject
 
@@ -22,8 +21,13 @@ class RateWorker : Worker() {
             (applicationContext as FinTrackerApplication).mainComponent.injectRateWorker(this)
         }
 
+        Log.d("RateWorker", "Start")
+
         val rates = rateNetworkDataSource.getRates().execute().body() ?: listOf()
         rateRepository.onRatesUpdate(rates)
+
+        Log.d("RateWorker", "Finish")
+
 
         return Result.SUCCESS
     }

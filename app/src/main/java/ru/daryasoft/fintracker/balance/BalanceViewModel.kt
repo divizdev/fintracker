@@ -2,12 +2,13 @@ package ru.daryasoft.fintracker.balance
 
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
-import ru.daryasoft.fintracker.account.AccountRepository
+import ru.daryasoft.fintracker.account.data.AccountRepository
 import ru.daryasoft.fintracker.calculator.TransactionCalculationService
-import ru.daryasoft.fintracker.category.CategoryRepository
+import ru.daryasoft.fintracker.category.data.CategoryRepository
 import ru.daryasoft.fintracker.common.Constants
 import ru.daryasoft.fintracker.entity.*
 import ru.daryasoft.fintracker.rate.RateRepository
+import java.math.BigDecimal
 import javax.inject.Inject
 
 /**
@@ -30,7 +31,7 @@ class BalanceViewModel @Inject constructor(private val accountRepository: Accoun
 
     val currency by lazy {
         val liveData = MutableLiveData<Currency>()
-        liveData.value = account.value?.currency ?: Constants.DEFAULT_CURRENCY
+        liveData.value = account.value?.money?.currency ?: Constants.DEFAULT_CURRENCY
         liveData
     }
 
@@ -46,7 +47,7 @@ class BalanceViewModel @Inject constructor(private val accountRepository: Accoun
 
     fun onChangeAccount(newAccount: Account) {
         account.value = newAccount
-        onChangeCurrency(account.value?.currency ?: Constants.DEFAULT_CURRENCY)
+        onChangeCurrency(account.value?.money?.currency ?: Constants.DEFAULT_CURRENCY)
     }
 
     fun onChangeCurrency(newCurrency: Currency) {
@@ -56,11 +57,11 @@ class BalanceViewModel @Inject constructor(private val accountRepository: Accoun
 
     private fun recalculateBalance() {
         val currencyValue = currency.value ?: Constants.DEFAULT_CURRENCY
-        val rateToDefault = rateRepository.getRateToDefault(account.value?.currency
+        val rateToDefault = rateRepository.getRateToDefault(account.value?.money?.currency
                 ?: Constants.DEFAULT_CURRENCY)
         val rateFromDefault = rateRepository.getRateFromDefault(currencyValue)
-        balance.value = Balance(currencyValue, (account.value?.amount
-                ?: 0.0) * rateToDefault * rateFromDefault)
+        val newSum = (account.value?.money?.value?.toDouble() ?: 0.0) * rateToDefault * rateFromDefault
+        balance.value = Balance(Money(BigDecimal.valueOf(newSum), currencyValue))
         transactionAggregateInfoList.value = transactionCalculationService.aggregateByCategories(account.value,
                 categoryRepository.findByTransactionType(TransactionType.OUTCOME).value
                         ?: listOf(), currencyValue)

@@ -16,6 +16,7 @@ class CustomArrayAdapter<T>(context: Context?, private val data: List<T>, privat
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
         val view = super.getView(position, convertView, parent) as TextView
         view.text = toStringFun.invoke(data[position])
+
         return view
     }
 

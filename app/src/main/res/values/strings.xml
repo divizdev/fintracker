@@ -35,12 +35,16 @@
     <string name="income">Доход</string>
     <string name="outcome">Расход</string>
 
+    <string name="OnceMonth">Раз в месяц</string>
+    <string name="Without">Не повторять</string>
+
     <string name="adding_account_title">Добавить счет</string>
     <string name="adding_account_name">Название</string>
     <string name="adding_account_start_balance">Начальный баланс</string>
     <string name="adding_account_positive_button_title">ОК</string>
     <string name="adding_account_negative_button_title">Отмена</string>
     <string name="adding_account_start_balance_value">0.0</string>
+
 
     <string name="add_transaction_button_ok_text">ОК</string>
     <string name="add_transaction_type">Тип операции</string>
@@ -50,5 +54,7 @@
     <string name="add_transaction_category_title">Категория</string>
     <string name="add_transaction_account_title">Счет</string>
     <string name="add_transaction_amount_title">Сумма операции</string>
+    <string name="title_request_delete_item_transaction">\"Вы действительно хотите удалить операцию?\"</string>
+    <string name="title_periodicity">Периодичность</string>
 
 </resources>

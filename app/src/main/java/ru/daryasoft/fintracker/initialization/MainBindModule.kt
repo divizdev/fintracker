@@ -2,23 +2,32 @@ package ru.daryasoft.fintracker.initialization
 
 import android.arch.lifecycle.ViewModel
 import android.arch.lifecycle.ViewModelProvider
+import dagger.Binds
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
-import ru.daryasoft.fintracker.main.MainActivity
-import ru.daryasoft.fintracker.balance.BalanceFragment
-import javax.inject.Singleton
-import dagger.Binds
 import dagger.multibindings.IntoMap
-import ru.daryasoft.fintracker.account.*
-import ru.daryasoft.fintracker.calculator.TransactionCalculationServiceImpl
-import ru.daryasoft.fintracker.calculator.TransactionCalculationService
-import ru.daryasoft.fintracker.rate.*
+import ru.daryasoft.fintracker.account.data.AccountRepository
+import ru.daryasoft.fintracker.account.data.AccountRepositoryDB
+import ru.daryasoft.fintracker.account.ui.AccountsActivity
+import ru.daryasoft.fintracker.account.ui.AddAccountDialogFragment
+import ru.daryasoft.fintracker.account.viewModel.AccountsViewModel
+import ru.daryasoft.fintracker.balance.BalanceFragment
 import ru.daryasoft.fintracker.balance.BalanceViewModel
-import ru.daryasoft.fintracker.category.CategoriesViewModel
-import ru.daryasoft.fintracker.category.CategoryRepository
-import ru.daryasoft.fintracker.category.CategoryRepositoryImpl
+import ru.daryasoft.fintracker.calculator.TransactionCalculationService
+import ru.daryasoft.fintracker.calculator.TransactionCalculationServiceImpl
+import ru.daryasoft.fintracker.category.data.CategoryRepository
+import ru.daryasoft.fintracker.category.data.CategoryRepositoryDB
+import ru.daryasoft.fintracker.category.viewModel.CategoriesViewModel
 import ru.daryasoft.fintracker.common.ViewModelFactory
-import ru.daryasoft.fintracker.transaction.*
+import ru.daryasoft.fintracker.main.MainActivity
+import ru.daryasoft.fintracker.rate.RateRepository
+import ru.daryasoft.fintracker.rate.RateRepositoryImpl
+import ru.daryasoft.fintracker.transaction.data.TransactionRepository
+import ru.daryasoft.fintracker.transaction.data.TransactionRepositoryDB
+import ru.daryasoft.fintracker.transaction.ui.AddTransactionActivity
+import ru.daryasoft.fintracker.transaction.ui.TransactionsFragment
+import ru.daryasoft.fintracker.transaction.viewModel.TransactionsViewModel
+import javax.inject.Singleton
 
 /**
  * Dagger-модуль с поставщиками зависимостей.
@@ -36,10 +45,10 @@ interface MainBindModule {
     fun contributeTransactionsFragmentInjector(): TransactionsFragment
 
     @ContributesAndroidInjector
-    fun contributeAccountsFragmentInjector(): AccountsFragment
+    fun contributeAccountsFragmentInjector(): AccountsActivity
 
     @ContributesAndroidInjector
-    fun contributeAddTransactionFragmentInjector(): AddTransactionFragment
+    fun contributeAddTransactionFragmentInjector(): AddTransactionActivity
 
     @ContributesAndroidInjector
     fun contributeAddAccountDialogFragmentInjector(): AddAccountDialogFragment
@@ -50,11 +59,11 @@ interface MainBindModule {
 
     @Binds
     @Singleton
-    fun bindTransactionRepository(transactionRepository: TransactionRepositoryImpl): TransactionRepository
+    fun bindTransactionRepository(transactionRepository: TransactionRepositoryDB): TransactionRepository
 
     @Binds
     @Singleton
-    fun bindAccountRepository(accountRepository: AccountRepositoryImpl): AccountRepository
+    fun bindAccountRepository(accountRepository: AccountRepositoryDB): AccountRepository
 
     @Binds
     @Singleton
@@ -62,7 +71,7 @@ interface MainBindModule {
 
     @Binds
     @Singleton
-    fun bindCategoryRepository(categoryRepository: CategoryRepositoryImpl): CategoryRepository
+    fun bindCategoryRepository(categoryRepository: CategoryRepositoryDB): CategoryRepository
 
     @Binds
     fun bindViewModelFactory(factory: ViewModelFactory): ViewModelProvider.Factory

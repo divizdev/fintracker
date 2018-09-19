@@ -7,10 +7,12 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 
 ext {
-    support_library_version = "28.0.0-alpha3"
+    support_library_version = "28.0.0-beta01"
     dagger_version = "2.16"
     lifecycle_version = "1.1.1"
     coroutines_version = "0.24.0"
+    work_runtime_version = "1.0.0-alpha04"
+    room_version = "1.1.1"
 }
 
 android {
@@ -41,27 +43,25 @@ dependencies {
     implementation "com.android.support:design:${support_library_version}"
     implementation "com.android.support:cardview-v7:${support_library_version}"
     implementation "com.android.support.constraint:constraint-layout:1.1.2"
+    implementation "com.android.support:support-v4:${support_library_version}"
+    implementation "android.arch.lifecycle:extensions:${lifecycle_version}"
+    implementation "android.arch.persistence.room:runtime:${room_version}"
+    kapt "android.arch.persistence.room:compiler:${room_version}"
 
     implementation "com.google.dagger:dagger:${dagger_version}"
-    implementation 'com.android.support:support-v4:28.0.0-alpha3'
     kapt "com.google.dagger:dagger-compiler:${dagger_version}"
-
     implementation "com.google.dagger:dagger-android-support:${dagger_version}"
     kapt "com.google.dagger:dagger-android-processor:${dagger_version}"
 
-    implementation "android.arch.lifecycle:extensions:${lifecycle_version}"
-
-    implementation 'com.github.PhilJay:MPAndroidChart:v3.0.3'
-
-    implementation 'com.squareup.retrofit2:retrofit:2.4.0'
-
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines_version"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines_version"
+    implementation "android.arch.work:work-runtime:$work_runtime_version"
+
+    implementation 'com.github.PhilJay:MPAndroidChart:v3.0.3'
+    implementation 'com.squareup.retrofit2:retrofit:2.4.0'
 
     testImplementation 'junit:junit:4.12'
     testImplementation "com.nhaarman.mockitokotlin2:mockito-kotlin:2.0.0-RC1"
-
-    implementation "android.arch.work:work-runtime:1.0.0-alpha05"
 
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'

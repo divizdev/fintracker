@@ -6,7 +6,7 @@ import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentPagerAdapter
 import ru.daryasoft.fintracker.R
 import ru.daryasoft.fintracker.balance.BalanceFragment
-import ru.daryasoft.fintracker.transaction.TransactionsFragment
+import ru.daryasoft.fintracker.transaction.ui.TransactionsFragment
 
 /**
  *  Адаптер для переключения фрагментов на главной активити.

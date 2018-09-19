@@ -33,5 +33,7 @@
     <dimen name="addTransactionTypeSwitchPadding">5dp</dimen>
     <dimen name="addTransactionSumWidth">300dp</dimen>
     <dimen name="addTransactionOkButtonWidth">100dp</dimen>
+    <dimen name="padding_medium">8dp</dimen>
+    <dimen name="margin_medium">16dp</dimen>
 
 </resources>
