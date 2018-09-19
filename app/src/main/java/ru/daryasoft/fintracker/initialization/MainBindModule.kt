@@ -17,6 +17,9 @@ import ru.daryasoft.fintracker.calculator.TransactionCalculationService
 import ru.daryasoft.fintracker.calculator.TransactionCalculationServiceImpl
 import ru.daryasoft.fintracker.category.data.CategoryRepository
 import ru.daryasoft.fintracker.category.data.CategoryRepositoryDB
+import ru.daryasoft.fintracker.category.ui.AddCategoryFragment
+import ru.daryasoft.fintracker.category.ui.CategoriesFragment
+import ru.daryasoft.fintracker.category.viewModel.AddCategoryViewModel
 import ru.daryasoft.fintracker.category.viewModel.CategoriesViewModel
 import ru.daryasoft.fintracker.common.ViewModelFactory
 import ru.daryasoft.fintracker.main.MainActivity
@@ -24,7 +27,7 @@ import ru.daryasoft.fintracker.rate.RateRepository
 import ru.daryasoft.fintracker.rate.RateRepositoryImpl
 import ru.daryasoft.fintracker.transaction.data.TransactionRepository
 import ru.daryasoft.fintracker.transaction.data.TransactionRepositoryDB
-import ru.daryasoft.fintracker.transaction.ui.AddTransactionActivity
+import ru.daryasoft.fintracker.transaction.ui.AddTransactionFragment
 import ru.daryasoft.fintracker.transaction.ui.TransactionsFragment
 import ru.daryasoft.fintracker.transaction.viewModel.TransactionsViewModel
 import javax.inject.Singleton
@@ -48,10 +51,16 @@ interface MainBindModule {
     fun contributeAccountsFragmentInjector(): AccountsActivity
 
     @ContributesAndroidInjector
-    fun contributeAddTransactionFragmentInjector(): AddTransactionActivity
+    fun contributeAddTransactionFragmentInjector(): AddTransactionFragment
 
     @ContributesAndroidInjector
     fun contributeAddAccountDialogFragmentInjector(): AddAccountDialogFragment
+
+    @ContributesAndroidInjector
+    fun contributeCategoriesActivityInjector(): CategoriesFragment
+    @ContributesAndroidInjector
+    fun contributeAddCategoryActivityInjector(): AddCategoryFragment
+
 
     @Binds
     @Singleton
@@ -95,4 +104,9 @@ interface MainBindModule {
     @IntoMap
     @ViewModelKey(CategoriesViewModel::class)
     fun postCategoriesViewModel(viewModel: CategoriesViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(AddCategoryViewModel::class)
+    fun postAddCategoryViewModel(viewModel: AddCategoryViewModel): ViewModel
 }

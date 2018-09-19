@@ -23,7 +23,8 @@ data class TransactionUI(
         @ColumnInfo(name = "idAccount")
         var idAccount: Long? = null,
         @ColumnInfo(name = "idCategory")
-        var idCategory: Long? = category.idKeyCategory
+        var idCategory: Long? = category.idKeyCategory,
+        var periodicity: Periodicity = Periodicity.Without
 
 ) {
     constructor() : this(Money(), Date(), Category())

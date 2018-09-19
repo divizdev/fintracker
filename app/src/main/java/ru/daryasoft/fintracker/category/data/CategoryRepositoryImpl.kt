@@ -12,24 +12,30 @@ import javax.inject.Inject
  * Репозиторий для работы с категориями.
  */
 class CategoryRepositoryImpl @Inject constructor(db: AppDatabase) : CategoryRepository {
+    override fun delete(category: Category) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun addCategory(category: Category) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
 
     private val categories = MutableLiveData<List<Category>>()
 
     init {
         categories.value = mutableListOf(
-                Category("Зарплата", TransactionType.INCOME,
-                        "ic_salary"),
-                Category("Сбережения", TransactionType.INCOME,
-                        "ic_saving"),
-                Category("Транспорт", TransactionType.OUTCOME,
-                        "ic_transport"),
-                Category("Еда", TransactionType.OUTCOME,
-                        "ic_food"))
+                Category("Зарплата", TransactionType.INCOME
+                ),
+                Category("Сбережения", TransactionType.INCOME
+                ),
+                Category("Транспорт", TransactionType.OUTCOME
+                ),
+                Category("Еда", TransactionType.OUTCOME))
         launch {
-            db.categoryDao().insert(Category("Зарплата", TransactionType.INCOME,"ic_salary"))
-            db.categoryDao().insert(Category("Сбережения", TransactionType.INCOME,"ic_saving"))
-            db.categoryDao().insert(Category("Транспорт", TransactionType.OUTCOME,"ic_transport"))
-            db.categoryDao().insert(Category("Еда", TransactionType.OUTCOME,"ic_food"))
+            db.categoryDao().insert(Category("Зарплата", TransactionType.INCOME))
+            db.categoryDao().insert(Category("Сбережения", TransactionType.INCOME))
+            db.categoryDao().insert(Category("Транспорт", TransactionType.OUTCOME))
+            db.categoryDao().insert(Category("Еда", TransactionType.OUTCOME))
         }
     }
 

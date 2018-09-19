@@ -11,4 +11,9 @@ interface CategoryRepository {
     fun getAll(): LiveData<List<Category>>
 
     fun findByTransactionType(transactionType: TransactionType): LiveData<List<Category>>
+
+    fun addCategory(category: Category)
+
+    fun delete(category: Category)
+
 }

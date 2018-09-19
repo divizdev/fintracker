@@ -16,9 +16,13 @@
             android:icon="@drawable/ic_dns_black_24dp"
             android:title="@string/title_categories_menu_item" />
 
-        <item
-            android:id="@+id/settings"
-            android:icon="@drawable/ic_settings_black_24dp"
-            android:title="@string/title_settings_menu_item" />
+        <!--<item-->
+            <!--android:id="@+id/settings"-->
+            <!--android:icon="@drawable/ic_settings_black_24dp"-->
+            <!--android:title="@string/title_settings_menu_item" />-->
+
+        <item android:id="@+id/about"
+            android:icon="@drawable/ic_info_outline_black_24dp"
+            android:title="@string/title_about" />
     </group>
 </menu>

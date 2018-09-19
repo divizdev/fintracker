@@ -1,4 +1,4 @@
-package ru.daryasoft.fintracker.transaction.ui
+package ru.daryasoft.fintracker.category.ui
 
 import android.app.AlertDialog
 import android.app.Dialog
@@ -10,21 +10,21 @@ import ru.daryasoft.fintracker.common.INoticeDialogListener
 /**
  * Диалог, который отображается для подтверждения удаления счета.
  */
-class DeleteTransactionDialogFragment : DialogFragment() {
+class DeleteCategoryDialogFragment : DialogFragment() {
 
     var listener: INoticeDialogListener? = null
 
 
-    private lateinit var onDeleteTransaction: () -> Unit
-    private lateinit var onCancelDelete: () -> Unit
+
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val dialogBuilder = AlertDialog.Builder(context)
-                .setTitle(R.string.title_request_delete_item_transaction)
+                .setTitle(R.string.title_request_delete_item_category)
                 .setPositiveButton(android.R.string.ok) { _, _ -> listener?.onDialogOk() }
                 .setNegativeButton(android.R.string.cancel) { _, _ -> listener?.onDialogCancel() }
         return dialogBuilder.create()
     }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,5 +36,7 @@ class DeleteTransactionDialogFragment : DialogFragment() {
             throw RuntimeException(targetFragment!!.toString() + " must implement INoticeDialogListener")
         }
     }
+
+
 
 }

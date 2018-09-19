@@ -8,9 +8,11 @@ import dagger.Provides
 import okhttp3.ResponseBody
 import retrofit2.Converter
 import retrofit2.Retrofit
+import ru.daryasoft.fintracker.category.data.CategoryDao
 import ru.daryasoft.fintracker.common.AppDatabase
 import ru.daryasoft.fintracker.rate.RateNetworkDataSource
 import ru.daryasoft.fintracker.rate.ResponseToRateConverter
+import ru.daryasoft.fintracker.transaction.data.TransactionDao
 import java.lang.reflect.Type
 import javax.inject.Singleton
 
@@ -41,6 +43,20 @@ class MainProvideModule {
     @Provides
     @Singleton
     fun provideAppDatabase(context: Application): AppDatabase {
-        return AppDatabase.createPersistentDatabase(context)
+        return AppDatabase.getInstance(context)
     }
+
+
+    @Provides
+    @Singleton
+    fun provideCategoryDao(appDatabase: AppDatabase): CategoryDao {
+        return  appDatabase.categoryDao()
+    }
+
+    @Provides
+    @Singleton
+    fun provideTransactionDao(appDatabase: AppDatabase): TransactionDao {
+        return  appDatabase.transactionDao()
+    }
+
 }

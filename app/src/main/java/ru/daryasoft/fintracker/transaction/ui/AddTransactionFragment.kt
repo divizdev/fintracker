@@ -6,15 +6,18 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.text.format.DateFormat
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import dagger.android.support.DaggerAppCompatActivity
-import kotlinx.android.synthetic.main.activity_add_transaction.*
+import dagger.android.support.DaggerFragment
+import kotlinx.android.synthetic.main.fragment_add_transaction.*
 import ru.daryasoft.fintracker.R
 import ru.daryasoft.fintracker.account.viewModel.AccountsViewModel
 import ru.daryasoft.fintracker.category.viewModel.CategoriesViewModel
 import ru.daryasoft.fintracker.common.CustomArrayAdapter
+import ru.daryasoft.fintracker.common.LocaleUtils
 import ru.daryasoft.fintracker.common.getViewModel
 import ru.daryasoft.fintracker.common.hideKeyboard
 import ru.daryasoft.fintracker.entity.*
@@ -23,29 +26,68 @@ import java.util.*
 import javax.inject.Inject
 
 
-class AddTransactionActivity : DaggerAppCompatActivity() {
+private const val ID_TRANSACTION = "idTransaction"
+
+class AddTransactionFragment : DaggerFragment() {
+
+    private var idTransaction: Long = -1
+
+    private lateinit var transactionDB: TransactionDB
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
+
+    private lateinit var localeUtils: LocaleUtils
 
     private val transactionsViewModel: TransactionsViewModel by lazy { getViewModel<TransactionsViewModel>(viewModelFactory) }
     private val categoriesViewModel: CategoriesViewModel by lazy { getViewModel<CategoriesViewModel>(viewModelFactory) }
     private val accountsViewModel: AccountsViewModel by lazy { getViewModel<AccountsViewModel>(viewModelFactory) }
     private val accountsObserver: android.arch.lifecycle.Observer<List<Account>> by lazy {
-        android.arch.lifecycle.Observer<List<Account>> { list ->
-            run {
-                listAccount.clear()
-                listAccount.addAll(list ?: listOf())
-                (transaction_account_spinner.adapter as ArrayAdapter<*>).notifyDataSetChanged()
-            }
+        android.arch.lifecycle.Observer<List<Account>> {
+            listAccount.clear()
+            listAccount.addAll(it ?: listOf())
+            (transaction_account_spinner.adapter as ArrayAdapter<*>).notifyDataSetChanged()
         }
     }
     private val categoryObserver: android.arch.lifecycle.Observer<List<Category>> by lazy {
-        android.arch.lifecycle.Observer<List<Category>> { list ->
-            run {
-                listCategories.clear()
-                listCategories.addAll(list ?: listOf())
-                (category_spinner.adapter as ArrayAdapter<*>).notifyDataSetChanged()
+        android.arch.lifecycle.Observer<List<Category>> {
+            listCategories.clear()
+            listCategories.addAll(it ?: listOf())
+            (category_spinner.adapter as ArrayAdapter<*>).notifyDataSetChanged()
+        }
+    }
+
+    private val transactionObserver: android.arch.lifecycle.Observer<TransactionDB> by lazy {
+        android.arch.lifecycle.Observer<TransactionDB> { it ->
+            it?.let {
+                transactionDB = it
+                transaction_amount.setText(it.sum.value.toString())
+                transaction_date_selector.text = DateFormat.getDateFormat(activity).format(it.date)
+
+                for ((index, item) in listAccount.withIndex()) {
+                    if (item.id == it.idAccount) {
+                        transaction_account_spinner.setSelection(index)
+                        transactionDB.account = item
+                        break
+                    }
+                }
+
+                for ((index, item) in listCategories.withIndex()) {
+                    if (item.idKeyCategory == it.idCategory) {
+                        category_spinner.setSelection(index)
+                        transactionDB.category = item
+                        break
+                    }
+                }
+
+                for (i in 0..spinner_periodicity.adapter.count) {
+                    if ((spinner_periodicity.adapter.getItem(i) as Periodicity) == transactionDB.periodicity) {
+                        spinner_periodicity.setSelection(i)
+                        break
+                    }
+                }
+
+
             }
         }
     }
@@ -53,15 +95,22 @@ class AddTransactionActivity : DaggerAppCompatActivity() {
     private var listAccount: MutableList<Account> = mutableListOf()
     private var listCategories: MutableList<Category> = mutableListOf()
 
-//    private val accountListAdapter = CustomArrayAdapter<Account>(this, listAccount) { account -> account.name }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_add_transaction)
-        title = getString(R.string.title_fragment_add_transaction)
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
+                              savedInstanceState: Bundle?): View? {
+        return inflater.inflate(R.layout.fragment_add_transaction, container, false)
+    }
 
-        val supportActionBar = supportActionBar
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        activity?.title = getString(R.string.title_fragment_add_transaction)
+
+        arguments?.let {
+            idTransaction = it.getLong(ID_TRANSACTION)
+        }
+
+        localeUtils = LocaleUtils(activity)
 
         initTransactionTypeSwitcher()
         initTransactionDateSelector()
@@ -69,15 +118,15 @@ class AddTransactionActivity : DaggerAppCompatActivity() {
         initAccountSpinner()
         initCategorySpinner()
         initOkButton()
+
+        if (idTransaction != -1L) {
+            transactionsViewModel.getTransaction(idTransaction).observe(this, transactionObserver)
+        }
     }
 
-    override fun onSupportNavigateUp(): Boolean {
-        onBackPressed()
-        return true
-    }
 
     private fun initTransactionTypeSwitcher() {
-        transaction_type_spinner.adapter = CustomArrayAdapter(this,
+        transaction_type_spinner.adapter = CustomArrayAdapter(activity,
                 TransactionType.values().toList()) { transactionType -> getString(transactionType.resId) }
 
         transaction_type_spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
@@ -85,29 +134,29 @@ class AddTransactionActivity : DaggerAppCompatActivity() {
             }
 
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                categoriesViewModel.getCategoriesByType(transaction_type_spinner.selectedItem as TransactionType).observe(this@AddTransactionActivity, categoryObserver)
+                categoriesViewModel.getCategoriesByType(transaction_type_spinner.selectedItem as TransactionType).observe(this@AddTransactionFragment, categoryObserver)
             }
         }
     }
 
     private fun initTransactionPeriodicitySwitcher() {
-        spinner_periodicity.adapter = CustomArrayAdapter(this,
+        spinner_periodicity.adapter = CustomArrayAdapter(activity,
                 Periodicity.values().toList()) { transactionType -> getString(transactionType.resId) }
 
     }
 
     private fun initTransactionDateSelector() {
-        transaction_date_selector.text = DateFormat.getDateFormat(this).format(Date())
+        transaction_date_selector.text = DateFormat.getDateFormat(activity).format(Date())
 
         transaction_date_selector.setOnClickListener {
             val currentDate = Calendar.getInstance()
-            DatePickerDialog(this,
+            DatePickerDialog(activity,
                     DatePickerDialog.OnDateSetListener { p0, year, month, dayOfMonth ->
                         val date = Calendar.getInstance()
                         date.set(Calendar.YEAR, year)
                         date.set(Calendar.MONTH, month)
                         date.set(Calendar.DAY_OF_MONTH, dayOfMonth)
-                        transaction_date_selector.text = DateFormat.getDateFormat(this).format(date.time)
+                        transaction_date_selector.text = DateFormat.getDateFormat(activity).format(date.time)
                     },
                     currentDate.get(Calendar.YEAR),
                     currentDate.get(Calendar.MONTH),
@@ -118,7 +167,7 @@ class AddTransactionActivity : DaggerAppCompatActivity() {
 
 
     private fun initAccountSpinner() {
-        transaction_account_spinner.adapter = CustomArrayAdapter<Account>(this, listAccount) { account -> account.name }
+        transaction_account_spinner.adapter = CustomArrayAdapter<Account>(activity, listAccount) { account -> account.name }
         transaction_account_spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onNothingSelected(adapter: AdapterView<*>) {
             }
@@ -132,7 +181,7 @@ class AddTransactionActivity : DaggerAppCompatActivity() {
     }
 
     private fun initCategorySpinner() {
-        category_spinner.adapter = CustomArrayAdapter(this, listCategories)
+        category_spinner.adapter = CustomArrayAdapter(activity, listCategories)
         { category -> category.name }
 
         categoriesViewModel.categories.observe(this, categoryObserver)
@@ -154,19 +203,36 @@ class AddTransactionActivity : DaggerAppCompatActivity() {
         add_transaction_ok.setOnClickListener {
             val account = transaction_account_spinner.selectedItem as Account
             val transactionSum = transaction_amount.text.toString().toDouble()
-            val date = Date()
+
+            val date = DateFormat.getDateFormat(activity).parse(transaction_date_selector.text.toString()) ?: Date()
             val category = category_spinner.selectedItem as Category
             val periodicity = spinner_periodicity.selectedItem as Periodicity
-            val transaction = TransactionDB(account, Money(transactionSum.toBigDecimal(), account.money.currency), date, category, periodicity)
+            val transactionNew = TransactionDB(account, Money(transactionSum.toBigDecimal(), account.money.currency), date, category, periodicity)
+            if (idTransaction != -1L) {
+                transactionNew.id = idTransaction
+                transactionsViewModel.onUpdateTransaction(account, transactionDB, transactionNew, category)
 
-            transactionsViewModel.onAddTransaction(account, transaction, category)
+            } else {
+                transactionsViewModel.onAddTransaction(account, transactionNew, category)
+            }
             hideKeyboard(transaction_amount)
-            onBackPressed()
+            activity?.supportFragmentManager?.popBackStack()
         }
     }
 
     companion object {
         @JvmStatic
-        fun newInstance(): AddTransactionActivity = AddTransactionActivity()
+        fun newInstance(idTransaction: Long?): AddTransactionFragment = AddTransactionFragment()
+                .apply {
+                    arguments = Bundle().apply {
+                        if (idTransaction != null)
+                            putLong(ID_TRANSACTION, idTransaction)
+                        else {
+                            putLong(ID_TRANSACTION, -1L)
+                        }
+                    }
+                }
     }
+
+
 }
